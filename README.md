@@ -65,7 +65,7 @@ BND: Bond ETF with stable yield and low volatility.
 
 SPY: Broad market ETF used as a benchmark.
 
-Next Steps
+## Next Steps
 Implement Task 2: Time series forecasting using ARIMA and LSTM.
 
 Add unit tests and logging for pipeline reliability.
@@ -73,3 +73,4 @@ Add unit tests and logging for pipeline reliability.
 Automate workflows with orchestration tools (e.g., Prefect, Airflow).
 
 Deploy interactive dashboard for real-time analytics.
+
