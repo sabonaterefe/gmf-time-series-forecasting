@@ -158,8 +158,8 @@ config/ – Model and portfolio parameters
 main.py – Pipeline entry point
 
 ## Installation
-git clone https://github.com/your-org/gmf-pipeline.git
-cd gmf-pipeline
+[git clone https://github.com/your-org/gmf-pipeline.git](https://github.com/sabonaterefe/gmf-time-series-forecasting)
+cd gmt-time-series-forecasting
 pip install -r requirements.txt
 Requirements
 Python 3.8+
@@ -180,3 +180,4 @@ yfinance
 
 # Author
 ## Sabona Financial Data Analyst & Pipeline Engineer Specializing in modular time series forecasting, portfolio optimization, and production-grade analytics for investment decisions.
+
