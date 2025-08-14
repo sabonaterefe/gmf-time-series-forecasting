@@ -1,76 +1,182 @@
-## GMF Time Series Forecasting
-## This repository contains a modular, production-grade analytics pipeline developed for GMF Investments. It supports exploratory data analysis (EDA), statistical testing, and risk assessment for financial assets including TSLA, BND, and SPY. The system is designed for reliability, maintainability, and real-world investment decision support.
+## GMF Forecasting & Portfolio Optimization Pipeline
+## Overview
+# This repository implements a modular, extensible pipeline for financial time series forecasting, portfolio construction, and strategy backtesting. It is designed for production-grade deployment in quantitative research environments and supports both classical statistical models and deep learning architectures. The pipeline centers on Tesla (TSLA) as the primary forecasted asset, with SPY and BND serving as benchmark and stabilizing components for portfolio optimization.
 
-## Task 1: Data Exploration & Risk Analysis
-Scope
-Task 1 focuses on building a robust foundation for time series analysis. The pipeline includes:
+The system is built for reliability, interpretability, and scalability, with explicit handling of API inconsistencies, shape mismatches, and model evaluation across multiple metrics.
 
-Data acquisition and preprocessing using yfinance, with forward-fill handling for missing values.
+# Objectives
+Forecast TSLA stock prices using ARIMA, SARIMA, and LSTM models.
 
-Exploratory data analysis, including daily returns, rolling volatility, and outlier detection.
+Quantify model performance using RMSE, MAE, and MAPE.
 
-Statistical testing with Augmented Dickey-Fuller (ADF) for stationarity.
+Generate forward-looking forecasts to inform asset allocation.
 
-Risk metrics such as Value at Risk (VaR) and Sharpe Ratio.
+Construct optimal portfolios using Modern Portfolio Theory.
 
-Visualization tools for price trends, return distributions, and volatility patterns.
+Backtest strategy performance against SPY, BND, and equal-weight benchmarks.
 
-All components are modularized for reuse and extensibility.
+Validate pipeline reliability and prepare for production deployment.
 
-## Implemented Modules
-The following Python modules have been developed and committed:
+# Task 1: Time Series Forecasting
+Methodology
+Data Source: Daily adjusted close prices for TSLA via yfinance.
 
-config.py: Defines asset tickers and analysis date ranges.
+# Models:
 
-data_utils.py: Handles data fetching, cleaning, and validation.
+ARIMA: Auto-tuned via AIC minimization.
 
-eda_utils.py: Computes returns, volatility, and flags anomalies.
+SARIMA: Seasonal parameters selected via autocorrelation and decomposition.
 
-stats_utils.py: Performs statistical tests and calculates risk metrics.
+LSTM: Scaled inputs, supervised reshaping, single-layer architecture.
 
-plot_utils.py: Generates visualizations for EDA and reporting.
+Evaluation:
 
-analysis.py: Integrates all utilities into a cohesive analysis workflow.
+Chronological train/test split (2015–2023 train, 2024–2025 test).
 
-## Notebook
-The notebook 01_data_exploration.ipynb demonstrates the full pipeline in action:
+Metrics: RMSE, MAE, MAPE.
 
-Loads and cleans historical price data for TSLA, BND, and SPY.
+# Results
+ARIMA and SARIMA provided stable, interpretable forecasts.
 
-Performs EDA and statistical analysis.
+LSTM captured nonlinear dynamics and outperformed in RMSE and MAE.
 
-Visualizes asset behavior and volatility.
+Trade-offs observed between smoothness (ARIMA) and responsiveness (LSTM).
 
-Interprets risk metrics in the context of portfolio modeling.
+# Task 2: Forecast Generation
+Methodology
+Forecast Horizon: 6–12 months.
 
-## Project Structure
-gmf-time-series-forecasting/
-├── config/                     # Configuration files
-├── notebooks/                 # Jupyter notebooks
-│   └── 01_data_exploration.ipynb
-├── reports/                   # Output plots and summaries
-├── src/                       # Core pipeline modules
-│   ├── config.py
-│   ├── data_utils.py
-│   ├── eda_utils.py
-│   ├── stats_utils.py
-│   ├── plot_utils.py
-│   └── analysis.py
-├── requirements.txt           # Python dependencies
-└── .gitignore                 # Excludes venv, cache, checkpoints
-Assets Analyzed
-TSLA: High-growth, high-volatility tech stock.
+# Techniques:
 
-BND: Bond ETF with stable yield and low volatility.
+ARIMA/SARIMA: Direct multi-step forecasts with confidence intervals.
 
-SPY: Broad market ETF used as a benchmark.
+LSTM: Recursive prediction using last known sequence.
 
-## Next Steps
-Implement Task 2: Time series forecasting using ARIMA and LSTM.
+Visualization: Historical overlay with forecast trajectories and uncertainty bounds.
 
-Add unit tests and logging for pipeline reliability.
+# Results
+ARIMA forecasts were conservative and stable.
 
-Automate workflows with orchestration tools (e.g., Prefect, Airflow).
+LSTM forecasts showed sharper inflection points and higher volatility.
 
-Deploy interactive dashboard for real-time analytics.
+Forecasts used to guide asset weighting in portfolio construction.
 
+# Task 3: Portfolio Optimization
+Methodology
+Assets: TSLA, SPY, BND.
+
+Returns: Log returns computed for numerical stability.
+
+# Optimization:
+
+Monte Carlo simulation of random portfolios.
+
+Metrics: Expected return, volatility, Sharpe ratio.
+
+Targets: Max Sharpe, Min Volatility, Custom return thresholds.
+
+Efficient Frontier: Visualized trade-offs and extracted optimal weights.
+
+# Results
+Max Sharpe portfolio favored TSLA with moderate SPY exposure.
+
+Min Volatility portfolio leaned on BND and SPY.
+
+Efficient Frontier confirmed diversification benefits and risk-adjusted performance.
+
+# Task 4: Strategy Backtesting
+Methodology
+Framework: Monthly rebalancing with fixed weights.
+
+# Metrics:
+
+Cumulative returns
+
+Annualized volatility
+
+Sharpe ratio
+
+Max drawdown
+
+Benchmarks: SPY, BND, Equal-weight portfolio.
+
+Visualization: Return curves, rolling Sharpe ratios, drawdown plots.
+
+# Results
+Max Sharpe portfolio outperformed SPY and BND in risk-adjusted terms.
+
+Min Volatility portfolio showed resilience during macro shocks.
+
+Backtest confirmed superiority of model-driven allocations.
+
+# Task 5: Pipeline Validation & Deployment Readiness
+Methodology
+Validation:
+
+Shape alignment across modules
+
+Explicit error handling for API changes
+
+Consistent metric computation
+
+Reliability Enhancements:
+
+Fallback logic for missing data
+
+Logging and exception tracking
+
+Unit tests for core functions
+
+## Deployment:
+
+Docker containerization
+
+Config-driven model selection
+
+Scheduled retraining via cron or Airflow
+
+## Results
+Pipeline validated end-to-end.
+
+Supports iterative experimentation and scalable deployment.
+
+Ready for integration into production-grade investment workflows.
+
+## Repository Structure
+data/ – Raw and processed datasets
+
+models/ – ARIMA, SARIMA, and LSTM implementations
+
+optimization/ – Portfolio construction and efficient frontier analysis
+
+backtesting/ – Strategy simulation and benchmark comparison
+
+utils/ – Preprocessing, evaluation, and visualization helpers
+
+config/ – Model and portfolio parameters
+
+main.py – Pipeline entry point
+
+## Installation
+git clone https://github.com/your-org/gmf-pipeline.git
+cd gmf-pipeline
+pip install -r requirements.txt
+Requirements
+Python 3.8+
+
+pandas
+
+numpy
+
+scikit-learn
+
+statsmodels
+
+keras
+
+matplotlib
+
+yfinance
+
+# Author
+## Sabona Financial Data Analyst & Pipeline Engineer Specializing in modular time series forecasting, portfolio optimization, and production-grade analytics for investment decisions.
